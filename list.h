@@ -11,13 +11,12 @@ typedef struct node {
     Task *task;
     struct node *next;
 } Node;
-Node *header;
+Node *header, *tail;
 
 
 // insert and delete operations.
-void insert(struct node *head, Task *task);
-
-void delete(struct node **head, Task *task);
+void insert(Node * head, Task *task);
+void delete(struct node *head, Task *task);
 
 void traverse(struct node *head);
 

@@ -25,6 +25,11 @@ int main(int argc, char *argv[])
     char *name;
     int priority;
     int burst;
+    header = malloc(sizeof(Node));
+    tail = malloc(sizeof(Node));
+    header= tail;
+    Timings *schedTime = malloc(sizeof(Timings));
+
 
     in = fopen("schedule.txt","r");
 
@@ -34,7 +39,6 @@ int main(int argc, char *argv[])
         priority = atoi(strsep(&temp,","));
         burst = atoi(strsep(&temp,","));
 
-        // add the task to the scheduler's list of tasks
         add(name,priority,burst);
 
         free(temp);
@@ -43,9 +47,11 @@ int main(int argc, char *argv[])
 
 
     fclose(in);
-
+    avgCalculation(header, schedTime);
     // invoke the scheduler
     schedule();
-
+    printf("Average waiting time %.03f\n"
+           "total turn around time  %.03f\n"
+           "average response time %.03f\n", schedTime->awt,schedTime->tat, schedTime->art);
     return 0;
 }
