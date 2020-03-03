@@ -6,18 +6,19 @@
 
 #define MIN_PRIORITY 1
 #define MAX_PRIORITY 10
-
-#include "task.h"
+#include <stdlib.h>
+#include <string.h>
+#include "schedulers.h"
 #include "list.h"
+#include "cpu.h"
+
 typedef struct calculation{
     double awt;
     double tat;
     double art;
 } Timings;
 
-void schedule();
+void schedule(Timings *ret);
 
 void add(char *name, int priority, int burst);
-
-void avgCalculation(Node* head, Timings *ret);
 #endif //MINIPROJ_SCHEDULERS_H

@@ -47,9 +47,9 @@ int main(int argc, char *argv[])
 
 
     fclose(in);
-    avgCalculation(header, schedTime);
+   // avgCalculation(header, schedTime);
     // invoke the scheduler
-    schedule();
+    schedule(schedTime);
     printf("Average waiting time %.03f\n"
            "total turn around time  %.03f\n"
            "average response time %.03f\n", schedTime->awt,schedTime->tat, schedTime->art);
