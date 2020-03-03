@@ -29,11 +29,15 @@ void schedule(Timings *ret) {
     struct node *pointer = header->next;
     while (pointer != NULL) {
         total += timePassed;
+        pointer->task->waitTime = timePassed;
         tat += timePassed + pointer->task->burst;
         timePassed += pointer->task->burst;
         art += timePassed;
+        pointer->task->waitTime = timePassed;
+        pointer->task->tat = pointer->task->waitTime+ pointer->task->burst;
         tasks++;
         run(pointer->task, 0);
+        pointer->task->remBurst=0;
         delete(header->next, pointer->task);
         pointer = pointer->next;
     }

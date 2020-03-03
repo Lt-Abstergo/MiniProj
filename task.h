@@ -9,6 +9,9 @@ typedef struct task {
     int tid;
     int priority;
     int burst;
+    int remBurst;
+    int waitTime;
+    int tat;
 } Task;
 
 #endif //MINIPROJ_TASK_H

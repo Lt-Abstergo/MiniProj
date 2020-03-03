@@ -3,6 +3,7 @@
 //
 
 #include "schedulers.h"
+#include "mergeSortHelper.h"
 
 void split(Node *source, Node **frontRef, Node **backRef);
 
@@ -29,11 +30,15 @@ void schedule(Timings *ret) {
     struct node *pointer = header->next;
     while (pointer != NULL) {
         total += timePassed;
+        pointer->task->waitTime = timePassed;
         tat += timePassed + pointer->task->burst;
         timePassed += pointer->task->burst;
         art += timePassed;
+        pointer->task->waitTime = timePassed;
+        pointer->task->tat = pointer->task->waitTime+ pointer->task->burst;
         tasks++;
         run(pointer->task, 0);
+        pointer->task->remBurst=0;
         delete(header->next, pointer->task);
         pointer = pointer->next;
     }
@@ -42,32 +47,14 @@ void schedule(Timings *ret) {
     ret->tat = tat / tasks;
 }
 
-void mergeSort(Node **headRef) {
-    Node *head = *headRef;
-    Node *a;
-    Node *b;
-    if ((head == NULL) || (head->next == NULL)) {
-        return;
-    }
-    split(head, &a, &b);
-    mergeSort(&a);
-    mergeSort(&b);
-    *headRef = sortedMerge(a, b);
-}
-
-Node *sortedMerge(Node *a, Node *b) {
-    Node *result = NULL;
-    if (a == NULL)
-        return (b);
-    else if (b == NULL)
-        return (a);
+Node *sortedMergeHelper(Node *result,Node *a, Node *b){
     if (a->task->priority > b->task->priority) {
         result = a;
         result->next = sortedMerge(a->next, b);
     } else if (a->task->priority == b->task->priority) {
         if (a->task->burst < b->task->burst) {
             result = a;
-            result->next = sortedMerge(a->next,b);
+            result->next = sortedMerge(a->next, b);
         } else {
             result = b;
             result->next = sortedMerge(a, b->next);
@@ -76,24 +63,4 @@ Node *sortedMerge(Node *a, Node *b) {
         result = b;
         result->next = sortedMerge(a, b->next);
     }
-    return (result);
-}
-
-void split(Node *source, Node **frontRef, Node **backRef) {
-    Node *fast;
-    Node *slow;
-    slow = source;
-    fast = source->next;
-
-    while (fast != NULL) {
-        fast = fast->next;
-        if (fast != NULL) {
-            slow = slow->next;
-            fast = fast->next;
-        }
-    }
-    *frontRef = source;
-    *backRef = slow->next;
-    slow->next = NULL;
-
 }

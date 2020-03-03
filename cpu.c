@@ -3,10 +3,15 @@
 //
 
 #include <stdio.h>
+#include <zconf.h>
 
 #include "task.h"
 
 // run this task for the specified time slice
 void run(Task *task, int slice) {
-    printf("Running task = [%s] [%d] [%d] for %d units.\n",task->name, task->priority, task->burst, slice);
+    if (slice == 0) {
+        printf("Running task = [%s] [%d] [%d].\n", task->name, task->priority, task->burst);
+    } else{
+        printf("Running task = [%s] [%d] [%d] for %d units remaining [%d].\n",task->name, task->priority, task->burst, slice, task->remBurst);
+    }
 }

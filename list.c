@@ -27,12 +27,10 @@ void delete(Node *head, Task *task){
     Node *prev;
 
     temp = head;
-    // special case - beginning of list
     if (strcmp(task->name,temp->task->name) == 0) {
         header->next = (head)->next;
     }
     else {
-        // interior or last element in the list
         prev = head;
         temp = temp->next;
         while (strcmp(task->name,temp->task->name) != 0) {
