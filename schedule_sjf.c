@@ -64,6 +64,14 @@ Node *sortedMerge(Node *a, Node *b) {
     if (a->task->burst < b->task->burst) {
         result = a;
         result->next = sortedMerge(a->next, b);
+    } else if (a->task->burst == b->task->burst) {
+        if (a->task->priority > b->task->priority) {
+            result = a;
+            result->next = sortedMerge(a->next, b);
+        } else {
+            result = b;
+            result->next = sortedMerge(a, b->next);
+        }
     } else {
         result = b;
         result->next = sortedMerge(a, b->next);

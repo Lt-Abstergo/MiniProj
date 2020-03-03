@@ -3,4 +3,4 @@ project(MiniProj C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(MiniProj driver.c task.h cpu.h list.h schedulers.h list.c cpu.c schedule_priority.c)
+add_executable(MiniProj driver.c task.h cpu.h list.h schedulers.h list.c cpu.c schedule_sjf.c)
